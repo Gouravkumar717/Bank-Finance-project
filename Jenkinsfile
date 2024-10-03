@@ -20,18 +20,21 @@ pipeline {
         }
         stage ('Create Docker Images') {
             steps {
+                // Build the Docker image
                 sh "docker build -t gourav787/bank-project:1.0 ."
             }
         }
         stage ("Docker-login") {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'Docker-cred', passwordVariable: 'dockerpassword', usernameVariable: 'dockerlogin')]) {
-                    sh "docker logi -u ${dockerlogin} -p ${dockerpassword}"
+                    // Login to DockerHub
+                    sh "docker login -u ${dockerlogin} -p ${dockerpassword}"
                 }
             }
         }
         stage("Docker-push") {
             steps {
+                // Push the Docker image to DockerHub
                 sh "docker push gourav787/bank-project:1.0"
             }
         }
