@@ -1,15 +1,15 @@
 pipeline {
     agent any
     tools {
-        maven "M2_HOME" // Ensure this matches the name configured in Jenkins for Maven
+        maven "M2_HOME" // Make sure M2_HOME is defined in Jenkins Global Tool Configuration
     }
     stages {
         stage ("Clone and Build") {
             steps {
-                // Cloning the repository
-                git branch: "master", url: "https://github.com/Gouravkumar717/Bank-Finance-project.git", credentialsId: "git-cread"
+                // Clone the repository using credentials and specify the correct branch
+                git branch: 'main', url: 'https://github.com/Gouravkumar717/Bank-Finance-project.git', credentialsId: 'git-cread'
                 
-                // Running Maven build
+                // Build the project with Maven, ignoring test failures
                 sh "mvn -Dmaven.test.failure.ignore=true clean package"
             }
         }
