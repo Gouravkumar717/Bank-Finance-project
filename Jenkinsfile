@@ -23,5 +23,17 @@ pipeline {
                 sh "docker build -t gourav787/bank-project:1.0 ."
             }
         }
+        stage ("Docker-login") {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'Docker-cred', passwordVariable: 'dockerpassword', usernameVariable: 'dockerlogin')]) {
+                    sh "docker logi -u ${dockerlogin} -p ${dockerpassword}"
+                }
+            }
+        }
+        stage("Docker-push") {
+            steps {
+                sh "docker push gourav787/bank-project:1.0"
+            }
+        }
     }
 }
